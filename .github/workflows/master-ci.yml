@@ -43,7 +43,7 @@ jobs:
     - name: Get pnpm cache directory
       id: pnpm-cache-dir
       shell: bash
-      run: echo "dir=$(pnpm store path)" >> ${GITHUB_OUTPUT}
+      run: echo "dir=$(npx pnpm store path)" >> ${GITHUB_OUTPUT}
 
     - name: Restore pnpm cache
       uses: actions/cache@v3
@@ -55,7 +55,7 @@ jobs:
           ${{ runner.os }}-node-
 
     - name: Install dependencies
-      run: pnpm install
+      run: npx pnpm install
 
     - name: Linter
       run: npm run lint
