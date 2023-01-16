@@ -38,7 +38,7 @@ jobs:
           ${{ runner.os }}-node-
 
     - name: Install pnpm
-      run: npm install --location@global pnpm --no-audit
+      run: mv package.json _package.json && npm install --location@global pnpm --no-audit && mv _package.json package.json
 
     - name: Get pnpm cache directory
       id: pnpm-cache-dir
