@@ -1,0 +1,24 @@
+{
+  "jsc": {
+    "experimental": {
+      "keepImportAssertions": true
+    },
+    "baseUrl": ".",
+    "parser": {
+      "syntax": "typescript",
+      "tsx": false,
+      "decorators": true,
+      "dynamicImport": true
+    },
+    "target": "es2022",
+    "externalHelpers": false,
+    "keepClassNames": true,
+    "transform": {
+      "legacyDecorator": false,
+      "decoratorMetadata": true
+    }
+  },
+  "module": {
+    "type": "nodenext"
+  }
+}

@@ -1,0 +1,1 @@
+node -r source-map-support/register -r reflect-metadata dist/main.js

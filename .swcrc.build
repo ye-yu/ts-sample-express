@@ -1,0 +1,21 @@
+{
+  "exclude": [".*\\.spec\\.ts$", ".*\\.test\\.ts$"],
+  "jsc": {
+    "baseUrl": ".",
+    "parser": {
+      "syntax": "typescript",
+      "tsx": false,
+      "decorators": true,
+      "dynamicImport": true
+    },
+    "target": "es2022",
+    "externalHelpers": true,
+    "transform": {
+      "legacyDecorator": false,
+      "decoratorMetadata": true
+    }
+  },
+  "module": {
+    "type": "nodenext"
+  }
+}
