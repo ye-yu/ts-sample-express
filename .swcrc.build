@@ -1,6 +1,11 @@
 {
-  "exclude": [".*\\.spec\\.ts$", ".*\\.test\\.ts$"],
+  "exclude": [
+    ".spec.ts"
+  ],
   "jsc": {
+    "experimental": {
+      "keepImportAssertions": true
+    },
     "baseUrl": ".",
     "parser": {
       "syntax": "typescript",
@@ -9,7 +14,8 @@
       "dynamicImport": true
     },
     "target": "es2022",
-    "externalHelpers": true,
+    "externalHelpers": false,
+    "keepClassNames": true,
     "transform": {
       "legacyDecorator": false,
       "decoratorMetadata": true
