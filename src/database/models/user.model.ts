@@ -7,7 +7,9 @@ export class UserModel {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column()
+	@Column({
+		length: 100,
+	})
 	email: string;
 
 	@Column()
