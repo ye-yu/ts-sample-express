@@ -4,7 +4,9 @@
       "recommended"
     ],
     "exclude": [
-      "require-await"
+      "require-await",
+      "no-explicit-any",
+      "ban-types"
     ]
   }
 }
