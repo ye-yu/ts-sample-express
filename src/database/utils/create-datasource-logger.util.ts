@@ -1,4 +1,4 @@
-import { LoggerService } from "src/logger/logger.service.js";
+import { LoggerService } from "../../logger/logger.service.js";
 import { QueryRunner, Logger } from "typeorm";
 
 export function createDatasourceLogger(datasource: string): Logger {
