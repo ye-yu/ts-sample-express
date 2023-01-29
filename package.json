@@ -12,7 +12,9 @@
     "lint": "denolint -c denolint.config.json",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --config jest.config.cjs",
     "test:e2e": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --config jest-e2e.config.cjs",
-    "typecheck": "npx tsc -p tsconfig.build.json --noEmit"
+    "typecheck": "npx tsc -p tsconfig.build.json --noEmit",
+    "file": "npm run build && bash run-ts-file.sh",
+    "typeorm": "typeorm-ts-node-esm"
   },
   "keywords": [],
   "author": "ye-yu <contact@raflie.cc>",
