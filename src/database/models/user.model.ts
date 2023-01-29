@@ -4,7 +4,7 @@ import { UseDataSourceRepo } from "../decorators/use-data-source-repo.decorator.
 @Entity()
 @UseDataSourceRepo()
 export class UserModel {
-	@PrimaryGeneratedColumn()
+	@PrimaryGeneratedColumn("increment")
 	id: number;
 
 	@Column({
