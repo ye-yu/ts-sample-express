@@ -31,13 +31,18 @@ export class DatabaseServiceImpl {
 		}
 
 		this.defaultDataSource = new DataSource(datasourceOption);
+		await this.defaultDataSource.initialize();
 	}
 
 	logger: LoggerServiceImpl;
 	async start(): Promise<void> {
 		this.logger = LoggerService.for(this);
 		await this.scanModels();
-		await this.scanMigrations();
+		try {
+			await this.scanMigrations();
+		} catch (_) {
+			this.logger.debug("No migrations file found.");
+		}
 		await this.initDataSources();
 	}
 
