@@ -26,7 +26,7 @@ export class LoggerServiceImpl implements pino.BaseLogger {
 			Object.assign(this.meta, {
 				context: this.context,
 			});
-			this.fatal(this.meta, message, ...formatter);
+			this.logger.logger.fatal(this.meta, message, ...formatter);
 			this.meta = undefined;
 		} else {
 			this.logger.logger.fatal(
@@ -42,7 +42,7 @@ export class LoggerServiceImpl implements pino.BaseLogger {
 			Object.assign(this.meta, {
 				context: this.context,
 			});
-			this.error(this.meta, message, ...formatter);
+			this.logger.logger.error(this.meta, message, ...formatter);
 			this.meta = undefined;
 		} else {
 			this.logger.logger.error(
@@ -58,7 +58,7 @@ export class LoggerServiceImpl implements pino.BaseLogger {
 			Object.assign(this.meta, {
 				context: this.context,
 			});
-			this.warn(this.meta, message, ...formatter);
+			this.logger.logger.warn(this.meta, message, ...formatter);
 			this.meta = undefined;
 		} else {
 			this.logger.logger.warn({ context: this.context }, message, ...formatter);
@@ -70,7 +70,7 @@ export class LoggerServiceImpl implements pino.BaseLogger {
 			Object.assign(this.meta, {
 				context: this.context,
 			});
-			this.info(this.meta, message, ...formatter);
+			this.logger.logger.info(this.meta, message, ...formatter);
 			this.meta = undefined;
 		} else {
 			this.logger.logger.info({ context: this.context }, message, ...formatter);
@@ -82,7 +82,7 @@ export class LoggerServiceImpl implements pino.BaseLogger {
 			Object.assign(this.meta, {
 				context: this.context,
 			});
-			this.debug(this.meta, message, ...formatter);
+			this.logger.logger.debug(this.meta, message, ...formatter);
 			this.meta = undefined;
 		} else {
 			this.logger.logger.debug(
@@ -98,7 +98,7 @@ export class LoggerServiceImpl implements pino.BaseLogger {
 			Object.assign(this.meta, {
 				context: this.context,
 			});
-			this.trace(this.meta, message, ...formatter);
+			this.logger.logger.trace(this.meta, message, ...formatter);
 			this.meta = undefined;
 		} else {
 			this.logger.logger.trace(
