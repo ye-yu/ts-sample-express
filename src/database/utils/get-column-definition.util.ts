@@ -6,10 +6,15 @@ export function getColumnDefinition<T>(
 	model: ModelType<T>,
 	property: keyof T
 ): TableColumn {
-	const properties = getMetadataArgsStorage().filterColumns(model);
-	const columnOptions = properties.find(
+	const columns = getMetadataArgsStorage().filterColumns(model);
+	const columnOptions = columns.find(
 		(e) => e.propertyName === property
 	)?.options;
+
+	const generationsOptions = getMetadataArgsStorage().findGenerated(
+		model,
+		String(property)
+	);
 	if (!columnOptions) {
 		const error = new Error("Unable to find property in model");
 		error.cause = {
@@ -43,13 +48,13 @@ export function getColumnDefinition<T>(
 		definition.primaryKeyConstraintName =
 			columnOptions.primaryKeyConstraintName;
 		definition.type = "bigint";
-		definition.generationStrategy = "increment";
-		definition.isGenerated = true;
+		if (generationsOptions) {
+			definition.generationStrategy = generationsOptions.strategy;
+			definition.isGenerated = true;
+		}
 	}
 
 	definition.name = String(property);
 
 	return definition;
 }
-
-getColumnDefinition(UserModel, "id");
