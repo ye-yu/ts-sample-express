@@ -1,4 +1,4 @@
-import { AppModule } from "../src/app/app.module.js";
+import { AppModule } from "./app.module.js";
 
 describe("AppModule", () => {
 	it("should be defined", () => {
