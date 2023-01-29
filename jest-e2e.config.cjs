@@ -1,9 +1,5 @@
 module.exports = {
-  extensionsToTreatAsEsm: [".ts"],
-  moduleNameMapper: {
-    "(\\..*)\\.js$": "$1",
-  },
-  testRegex: ".e2e-spec.ts$",
+  testRegex: ".e2e-spec.js$",
   transform: {
     "^.+\\.(t|j)s$": ["@swc/jest"],
   },
