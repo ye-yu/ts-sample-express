@@ -17,10 +17,11 @@ export class DatabaseServiceImpl {
 
 	repoCache: Record<any, Repository<any>> = {};
 	repo<K extends ObjectLiteral>(model: ModelType<K>): Repository<K> {
-		if (this.repoCache[model as any]) return this.repoCache[model as any];
-		const repo = this.defaultDataSource.getRepository(model as any);
-		this.repoCache[model as any] = repo as any;
-		return repo as any;
+		const modelAny: any = model;
+		if (this.repoCache[modelAny]) return this.repoCache[modelAny];
+		const repo: any = this.defaultDataSource.getRepository(modelAny);
+		this.repoCache[modelAny] = repo;
+		return repo;
 	}
 }
 

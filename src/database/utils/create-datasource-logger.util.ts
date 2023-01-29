@@ -31,7 +31,7 @@ export function createDatasourceLogger(datasource: string): Logger {
 					parameters,
 					queryRunner,
 				})
-				.error(`Query returned error: %s. Query: %s`, error, query);
+				.error(`Query returned error: %s. Query: %s`, errorString, query);
 		},
 		logQuerySlow: function (
 			time: number,

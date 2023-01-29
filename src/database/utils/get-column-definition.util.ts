@@ -1,5 +1,4 @@
 import { TableColumn, getMetadataArgsStorage } from "typeorm";
-import { UserModel } from "../models/user.model.js";
 import { ModelType } from "../types/model.type.js";
 
 export function getColumnDefinition<T>(
