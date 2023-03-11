@@ -43,7 +43,6 @@ export class AuthServiceImpl {
 		dbService: RepoGetterType,
 		user: UserModel
 	): Promise<void> {
-		const userModel = dbService.repo(UserModel);
 		const otpModel = dbService.repo(OtpLogModel);
 		const otp = await AuthService.generateOneTimePassword();
 		const password = await hash(otp, 4);

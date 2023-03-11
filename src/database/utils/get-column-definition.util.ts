@@ -64,11 +64,6 @@ export function getColumnDefinition<T>(
 			}
 			default: {
 				const error = new Error("unable to infer column definition");
-				const type = Reflect.getMetadata(
-					"design:type",
-					model.prototype,
-					property as any
-				);
 				error.cause = {
 					columnOptions,
 					model,
