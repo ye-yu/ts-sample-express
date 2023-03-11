@@ -3,7 +3,7 @@ import path from "path";
 import { LoggerService } from "../../logger/logger.service.js";
 
 export async function scanModels(): Promise<void> {
-	const logger = LoggerService.for("database").for("scamModels");
+	const logger = LoggerService.for("database").for("scanModels");
 	logger.info("Scanning models directory...");
 	const currentPath = import.meta.url.substring("file://".length);
 	const parentDirectory = path.dirname(currentPath);
