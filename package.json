@@ -16,7 +16,7 @@
     "file": "npm run build && bash run-ts-file.sh",
     "typeorm": "typeorm-ts-node-esm",
     "migrate": "npm run typeorm -- migration:run -d src/database/data-sources/default.data-source.ts",
-    "migrate:revert:all": "npm run typeorm -- migration:revert -d src/database/data-sources/default.data-source.ts"
+    "migrate:revert": "npm run typeorm -- migration:revert -d src/database/data-sources/default.data-source.ts"
   },
   "keywords": [],
   "author": "ye-yu <contact@raflie.cc>",
