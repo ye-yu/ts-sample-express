@@ -15,9 +15,9 @@ export async function scanMigrations(): Promise<void> {
 	const modelFilesToImport = modelFiles.map((e) =>
 		path.join(migrationsDirectory, e)
 	);
-	const importTasks = modelFilesToImport.map(async (model) => {
+	const importTasks = modelFilesToImport.sort().map(async (model) => {
 		const clogger = logger.for("importTasks");
-		clogger.debug("Importing %s", path.basename(model));
+		clogger.info("Importing %s", path.basename(model));
 		await import(model);
 	});
 
