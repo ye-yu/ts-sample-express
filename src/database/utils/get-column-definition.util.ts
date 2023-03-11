@@ -1,5 +1,14 @@
-import { TableColumn, getMetadataArgsStorage } from "typeorm";
+import { TableColumn, getMetadataArgsStorage, ColumnType } from "typeorm";
 import { ModelType } from "../types/model.type.js";
+
+function columnTypeOfString(
+	column?: ColumnType
+): column is Exclude<
+	ColumnType,
+	BooleanConstructor | DateConstructor | NumberConstructor | StringConstructor
+> {
+	return typeof column === "string";
+}
 
 export function getColumnDefinition<T>(
 	model: ModelType<T>,
@@ -24,20 +33,50 @@ export function getColumnDefinition<T>(
 	}
 	const definition = new TableColumn();
 
-	switch (columnOptions.type) {
-		case Number: {
-			definition.type = "int";
-			break;
+	if (columnTypeOfString(columnOptions.type)) {
+		definition.type = columnOptions.type;
+	} else {
+		if (!definition.type) {
+			const type = Reflect.getMetadata(
+				"design:type",
+				model.prototype,
+				property as any
+			);
+			columnOptions.type = type;
 		}
-		case String: {
-			definition.type = "varchar";
-			definition.length = `${columnOptions?.length ?? 100}`;
-			break;
-		}
-		default: {
-			const error = new Error("unable to infer column definition");
-			error.cause = columnOptions;
-			throw error;
+		switch (columnOptions.type) {
+			case Number: {
+				definition.type = "int";
+				break;
+			}
+			case String: {
+				definition.type = "varchar";
+				definition.length = `${columnOptions?.length ?? 100}`;
+				break;
+			}
+			case Date: {
+				definition.type = "datetime";
+				break;
+			}
+			case Boolean: {
+				definition.type = "tinyint";
+				break;
+			}
+			default: {
+				const error = new Error("unable to infer column definition");
+				const type = Reflect.getMetadata(
+					"design:type",
+					model.prototype,
+					property as any
+				);
+				error.cause = {
+					columnOptions,
+					model,
+					property,
+					type: definition.type,
+				};
+				throw error;
+			}
 		}
 	}
 
