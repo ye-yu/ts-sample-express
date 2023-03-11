@@ -6,5 +6,6 @@ export function getTableName(model: any): string {
 		.flatMap((e) => (e.toUpperCase() === e ? ["_", e] : [e]))
 		.join("")
 		.toLocaleLowerCase()
+		.replace(/_model$/g, "")
 		.substring(1));
 }
