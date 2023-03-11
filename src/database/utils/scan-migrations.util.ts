@@ -15,12 +15,13 @@ export async function scanMigrations(): Promise<void> {
 	const modelFilesToImport = modelFiles.map((e) =>
 		path.join(migrationsDirectory, e)
 	);
-	const importTasks = modelFilesToImport.sort().map(async (model) => {
+
+	for (let index = 0; index < modelFilesToImport.length; index++) {
+		const model = modelFilesToImport[index];
 		const clogger = logger.for("importTasks");
 		clogger.info("Importing %s", path.basename(model));
 		await import(model);
-	});
+	}
 
-	await Promise.all(importTasks);
 	logger.info("Finished importing migrations");
 }
