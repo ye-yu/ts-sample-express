@@ -32,7 +32,7 @@ export class OtpLogModel {
 		type: "datetime",
 		nullable: true,
 	})
-	loggedInAt?: Date;
+	loggedInAt: Date | null;
 
 	@Column({
 		type: "datetime",
