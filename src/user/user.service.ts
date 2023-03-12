@@ -3,16 +3,25 @@ import { UserModel } from "../database/models/user.model.js";
 import { RepoGetterType } from "../database/types/repo-getter.type.js";
 
 export class UserServiceImpl {
-	async getOrCreateUser(
+	async getUser(
 		email: string,
 		useDbService: RepoGetterType = DatabaseService
-	): Promise<UserModel> {
+	): Promise<UserModel | null> {
 		const userModel = useDbService.repo(UserModel);
 		let userByEmail = await userModel.findOne({
 			where: {
 				email,
 			},
 		});
+		return userByEmail;
+	}
+	async getOrCreateUser(
+		email: string,
+		useDbService: RepoGetterType = DatabaseService
+	): Promise<UserModel> {
+		const userModel = useDbService.repo(UserModel);
+		let userByEmail = await this.getUser(email, useDbService);
+
 		if (!userByEmail) {
 			userByEmail = userModel.create({
 				email,
