@@ -8,7 +8,7 @@ export class UserServiceImpl {
 		useDbService: RepoGetterType = DatabaseService
 	): Promise<UserModel | null> {
 		const userModel = useDbService.repo(UserModel);
-		let userByEmail = await userModel.findOne({
+		const userByEmail = await userModel.findOne({
 			where: {
 				email,
 			},
