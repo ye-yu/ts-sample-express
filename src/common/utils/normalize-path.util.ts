@@ -12,5 +12,17 @@ export function normalizePath(filePath: string) {
 	return relative.replaceAll("../", "").replaceAll("./", "");
 }
 
-const cachedPath: ILocation = await locate(normalizePath);
-const cachedPosition: Position = mapSourcePosition(cachedPath);
+const testEnvLocation = {
+	path: import.meta.url.replace(/^file:\/\//, ""),
+	source: import.meta.url,
+	line: 0,
+	column: 0,
+};
+const cachedPath: ILocation =
+	ConfigService.app.env === "testing"
+		? testEnvLocation
+		: await locate(normalizePath);
+const cachedPosition: Position =
+	ConfigService.app.env === "testing"
+		? testEnvLocation
+		: mapSourcePosition(cachedPath);
