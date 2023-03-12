@@ -5,6 +5,10 @@ export class AppConfig {
 		return process.env.NODE_ENV?.toLocaleLowerCase("en-us") ?? "development";
 	}
 
+	get appPort(): string {
+		return process.env.APP_PORT?.toLocaleLowerCase("en-us") ?? "3000";
+	}
+
 	get logLevel(): pino.LevelWithSilent {
 		const levels = [
 			"fatal",
