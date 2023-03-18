@@ -25,6 +25,7 @@ type OtpRequestResult = OtpSuccessObject | OtpFailedObject;
 type OtpVerifyResult = OtpVerifySuccessObject | OtpVerifyFailedObject;
 
 export class AuthServiceImpl {
+	static readonly instance = new AuthServiceImpl();
 	readonly logger = LoggerService.for("auth");
 
 	async generateOneTimePassword(): Promise<string> {
@@ -155,4 +156,4 @@ export class AuthServiceImpl {
 	}
 }
 
-export const AuthService = new AuthServiceImpl();
+export const AuthService = AuthServiceImpl.instance;

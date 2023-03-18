@@ -4,6 +4,8 @@ import { Request } from "../../server/types/request.type.js";
 import { AuthService } from "../auth.service.js";
 
 export class AuthController {
+	static readonly instance = new AuthController();
+
 	@Put("/api/v1/otp")
 	async requestOtp(req: Request) {
 		return await AuthService.requestOneTimePassword(req.body.email);
