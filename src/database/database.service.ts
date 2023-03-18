@@ -3,16 +3,42 @@ import { LoggerService } from "../logger/logger.service.js";
 import { defaultDataSource } from "./data-sources/default.data-source.js";
 import { RepoGetterType } from "./types/repo-getter.type.js";
 import { ModelType } from "./types/model.type.js";
+import { HealthServiceStatus } from "../health/types/health-service-status.type.js";
+import { HealthService } from "../health/health.service.js";
 
 export class DatabaseServiceImpl implements RepoGetterType {
+	static readonly instance = new DatabaseServiceImpl();
 	defaultDataSource: DataSource;
+	initializationError: Error | null = null;
 	async initDataSources(): Promise<void> {
 		this.defaultDataSource = defaultDataSource;
-		await this.defaultDataSource.initialize();
+		while (!this.defaultDataSource.isInitialized) {
+			try {
+				await this.defaultDataSource.initialize();
+			} catch (error) {
+				this.initializationError = error;
+			}
+		}
+	}
+
+	async healthCheck(): Promise<HealthServiceStatus> {
+		if (!this.defaultDataSource.isInitialized) {
+			return {
+				ok: false,
+				service: "database",
+				message: this.initializationError?.message ?? "not initialized",
+			};
+		}
+		await this.defaultDataSource.query("select 1;");
+		return {
+			ok: true,
+			service: "database",
+		};
 	}
 
 	readonly logger = LoggerService.for(this);
 	async start(): Promise<void> {
+		HealthService.registerHealthHook("database", this.healthCheck.bind(this));
 		await this.initDataSources();
 	}
 
@@ -42,4 +68,4 @@ export class DatabaseServiceImpl implements RepoGetterType {
 	}
 }
 
-export const DatabaseService = new DatabaseServiceImpl();
+export const DatabaseService = DatabaseServiceImpl.instance;
