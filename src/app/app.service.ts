@@ -8,6 +8,8 @@ export class AppService {
 		logger.info("Initializing database...");
 		await ServerService.start();
 		await ServerService.configureRoutes();
+		// serve endpoints immediately
+		await ServerService.serve();
 		await DatabaseService.start();
 		return;
 	}
