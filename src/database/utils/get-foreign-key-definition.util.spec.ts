@@ -8,6 +8,8 @@ import {
 } from "typeorm";
 import { getForeignKeyDefinition } from "./get-foreign-key-definition.util.js";
 import { getTableName } from "./get-table-name.util.js";
+import { describe, it } from "node:test";
+import assert from "../../common/utils/test.util.js";
 
 describe("getForeignKeyDefinition", () => {
 	it("should be able to construct foreign key", () => {
@@ -26,7 +28,10 @@ describe("getForeignKeyDefinition", () => {
 			primaryGenerated: number;
 
 			@ManyToOne(() => Model, (model) => model.foreign)
-			@JoinColumn({ name: "modelId", referencedColumnName: "primaryGenerated" })
+			@JoinColumn({
+				name: "modelId",
+				referencedColumnName: "primaryGenerated",
+			})
 			model: Model;
 
 			@Column({
@@ -36,8 +41,8 @@ describe("getForeignKeyDefinition", () => {
 		}
 
 		const definition = getForeignKeyDefinition(ForeignModel, "model");
-		expect(definition.columnNames).toContain("modelId");
-		expect(definition.referencedTableName).toContain(getTableName(Model));
-		expect(definition.referencedColumnNames).toContain("primaryGenerated");
+		assert.contains(definition.columnNames, "modelId");
+		assert.contains(definition.referencedTableName, getTableName(Model));
+		assert.contains(definition.referencedColumnNames, "primaryGenerated");
 	});
 });

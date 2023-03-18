@@ -1,5 +1,7 @@
 import { Entity, PrimaryGeneratedColumn } from "typeorm";
 import { getColumnDefinition } from "./get-column-definition.util.js";
+import { describe, it } from "node:test";
+import assert from "../../common/utils/test.util.js";
 
 describe("getColumnDefinition", () => {
 	it("should be able to construct primary key", () => {
@@ -10,8 +12,8 @@ describe("getColumnDefinition", () => {
 		}
 
 		const tableColumn = getColumnDefinition(Model, "primaryGenerated");
-		expect(tableColumn.name).toEqual("primaryGenerated");
-		expect(tableColumn.isGenerated).toEqual(true);
-		expect(tableColumn.generationStrategy).toEqual("increment");
+		assert.equal(tableColumn.name, "primaryGenerated");
+		assert.isTrue(tableColumn.isGenerated);
+		assert.equal(tableColumn.generationStrategy, "increment");
 	});
 });
