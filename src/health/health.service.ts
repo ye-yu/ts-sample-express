@@ -1,7 +1,6 @@
 import { LoggerService } from "../logger/logger.service.js";
 import { Get } from "../server/decorators/get.decorator.js";
 import { Middleware } from "../server/types/middleware.type.js";
-import { Request } from "../server/types/request.type.js";
 import { HealthCheckFunction } from "./types/health-check-function.type.js";
 import { HealthServiceStatus } from "./types/health-service-status.type.js";
 import { HealthStatus } from "./types/health-status.type.js";
