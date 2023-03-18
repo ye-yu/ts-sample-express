@@ -8,6 +8,8 @@ import { Patch } from "./decorators/patch.decorator.js";
 import { Delete } from "./decorators/delete.decorator.js";
 import express = require("express");
 import { locateWithSourceMap } from "../common/utils/locate-with-source-map.util.js";
+import { ConfigService } from "../config/config.service.js";
+import { HealthService } from "../health/health.service.js";
 
 export class ServerServiceImpl {
 	readonly logger = LoggerService.for("server");
@@ -33,6 +35,7 @@ export class ServerServiceImpl {
 
 	async configureRoutes() {
 		const methodDecorators = [Get, Post, Put, Patch, Delete];
+		const healthMiddleware = HealthService.middleware;
 
 		for (const decorator of methodDecorators) {
 			for (const handler of decorator.handlers) {
@@ -43,8 +46,29 @@ export class ServerServiceImpl {
 						`${handler.name} ` +
 						`(${location.source}:${location.line}:${location.column})`
 				);
+
+				const boundedHandler = handler.handler.bind(handler.bindTo);
+				this.app[decorator.method](
+					handler.route,
+					healthMiddleware,
+					async (req, res) => {
+						try {
+							const response = await boundedHandler(req);
+							res.json(response);
+						} catch (error) {
+							res.status(500).json(error?.message);
+						}
+					}
+				);
 			}
 		}
+	}
+
+	async serve(): Promise<void> {
+		await new Promise<void>((res) => {
+			this.app.listen(ConfigService.app.appPort, res);
+		});
+		this.logger.info("Server is listening at: %s", ConfigService.app.appPort);
 	}
 }
 
