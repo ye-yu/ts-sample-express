@@ -2,9 +2,13 @@ name: NodeJS master branch workflow
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ["master"]
+    paths:
+      - "src/**"
   pull_request:
-    branches: [ "master" ]
+    branches: ["master"]
+    paths:
+      - "src/**"
   workflow_dispatch:
 
 jobs:
@@ -16,52 +20,52 @@ jobs:
         node-version: [18.x]
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Get npm cache directory
-      id: npm-cache-dir
-      shell: bash
-      run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
 
-    - name: Restore pnpm cache
-      uses: actions/cache@v3
-      id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
-      with:
-        path: ${{ steps.npm-cache-dir.outputs.dir }}
-        key: ${{ runner.os }}-node-npm-global
-        restore-keys: |
-          ${{ runner.os }}-node-
+      - name: Restore pnpm cache
+        uses: actions/cache@v3
+        id: npm-cache # use this to check for `cache-hit` ==> if: steps.npm-cache.outputs.cache-hit != 'true'
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-npm-global
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-    - name: Install pnpm
-      run: mv package.json _package.json && npm install --location@global pnpm --no-audit && mv _package.json package.json
+      - name: Install pnpm
+        run: mv package.json _package.json && npm install --location@global pnpm --no-audit && mv _package.json package.json
 
-    - name: Get pnpm cache directory
-      id: pnpm-cache-dir
-      shell: bash
-      run: echo "dir=$(npx pnpm store path)" >> ${GITHUB_OUTPUT}
+      - name: Get pnpm cache directory
+        id: pnpm-cache-dir
+        shell: bash
+        run: echo "dir=$(npx pnpm store path)" >> ${GITHUB_OUTPUT}
 
-    - name: Restore pnpm cache
-      uses: actions/cache@v3
-      id: pnpm-cache # use this to check for `cache-hit` ==> if: steps.pnpm-cache.outputs.cache-hit != 'true'
-      with:
-        path: ${{ steps.pnpm-cache-dir.outputs.dir }}
-        key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
+      - name: Restore pnpm cache
+        uses: actions/cache@v3
+        id: pnpm-cache # use this to check for `cache-hit` ==> if: steps.pnpm-cache.outputs.cache-hit != 'true'
+        with:
+          path: ${{ steps.pnpm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-    - name: Install dependencies
-      run: npx pnpm install
+      - name: Install dependencies
+        run: npx pnpm install
 
-    - name: Linter
-      run: npm run lint
-      
-    - name: Run test
-      run: npm test
+      - name: Linter
+        run: npm run lint
 
-    - name: Run end-to-end test
-      run: npm run test:e2e
+      - name: Run test
+        run: npm test
+
+      - name: Run end-to-end test
+        run: npm run test:e2e
